@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ThreadsLite.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+47d91525f7ca1798a885dac0b295610979353ffb")]
 [assembly: System.Reflection.AssemblyProductAttribute("ThreadsLite.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ThreadsLite.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

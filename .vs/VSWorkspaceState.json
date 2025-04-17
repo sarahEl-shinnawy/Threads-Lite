@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\frontend"
+    "\\backend",
+    "\\backend\\ThreadsLite.API",
+    "\\backend\\ThreadsLite.API\\bin"
   ],
-  "SelectedNode": "\\frontend",
+  "SelectedNode": "\\backend\\ThreadsLite.API",
   "PreviewInSolutionExplorer": false
 }
