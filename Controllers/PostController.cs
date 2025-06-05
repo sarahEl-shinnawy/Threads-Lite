@@ -1,64 +1,71 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using threadslite.API.Data;
 using threadslite.API.Models;
 using threadslite.API.Models.DTOs;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace threadslite.API.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class PostsController : ControllerBase
+namespace threadslite.API.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public PostsController(AppDbContext context)
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]  // This ensures all endpoints require authentication
+    public class PostsController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
 
-    [HttpPost]
-    public IActionResult CreatePost([FromBody] PostCreateDto dto)
-    {
-        var user = _context.Users.Find(dto.UserId);
-        if (user == null) return NotFound("User not found");
-
-        var post = new Post
+        public PostsController(AppDbContext context)
         {
-            Content = dto.Content,
-            UserId = dto.UserId,
-            User = user
-        };
+            _context = context;
+        }
 
-        _context.Posts.Add(post);
-        _context.SaveChanges();
-
-        var postDto = new PostReadDto
+        [HttpPost]
+        public async Task<IActionResult> CreatePost([FromBody] PostCreateDto dto)
         {
-            Id = post.Id,
-            Content = post.Content,
-            CreatedAt = post.CreatedAt,
-            UserId = post.UserId,
-            Username = user.Username
-        };
+            var user = await _context.Users.FindAsync(dto.UserId);
+            if (user == null) return NotFound("User not found");
 
-        return Ok(postDto);
-    }
-
-    [HttpGet]
-    public IActionResult GetPosts()
-    {
-        var posts = _context.Posts
-            .Select(p => new PostReadDto
+            var post = new Post
             {
-                Id = p.Id,
-                Content = p.Content,
-                CreatedAt = p.CreatedAt,
-                UserId = p.UserId,
-                Username = p.User.Username
-            })
-            .ToList();
+                Content = dto.Content,
+                UserId = dto.UserId,
+                User = user
+            };
 
-        return Ok(posts);
+            _context.Posts.Add(post);
+            await _context.SaveChangesAsync();
+
+            var postDto = new PostReadDto
+            {
+                Id = post.Id,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                UserId = post.UserId,
+                Username = user.Username
+            };
+
+            return Ok(postDto);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]  // If you want to allow public read access, else remove this line
+        public async Task<IActionResult> GetPosts()
+        {
+            var posts = await _context.Posts
+                .Include(p => p.User) // Include related user entity
+                .Select(p => new PostReadDto
+                {
+                    Id = p.Id,
+                    Content = p.Content,
+                    CreatedAt = p.CreatedAt,
+                    UserId = p.UserId,
+                    Username = p.User.Username
+                })
+                .ToListAsync();
+
+            return Ok(posts);
+        }
     }
 }
