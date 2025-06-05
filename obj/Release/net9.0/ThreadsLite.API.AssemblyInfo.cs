@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("838076d0-1873-483b-8e57-9d734862155f")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ThreadsLite.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba4b52b9bb682bf34a30af948c13471bcd6eb022")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8bbd987f1da14eb235290e881199d8a7318ee0df")]
 [assembly: System.Reflection.AssemblyProductAttribute("ThreadsLite.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ThreadsLite.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
